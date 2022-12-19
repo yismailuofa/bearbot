@@ -1,16 +1,20 @@
 body {
-    text-align: center;
-    min-width: 12em;
+  text-align: center;
+  min-width: 12em;
+}
+
+body > * {
+  margin: 4px;
 }
 
 .invisible {
-    display: none;
+  display: none;
 }
 
 #startButton {
-    background-color: #cfffd5
+  background-color: #cfffd5;
 }
 
 #stopButton {
-    background-color: #faa0a0
+  background-color: #faa0a0;
 }

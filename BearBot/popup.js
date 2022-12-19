@@ -1,6 +1,7 @@
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const successMsg = document.getElementById("successMsg");
+const sectionInput = document.getElementById("sectionInput");
 
 const INTERVAL_TIME = 5 * 1000; // 5 seconds
 
@@ -31,6 +32,7 @@ async function checkOpen() {
     {
       target: { tabId: tab.id },
       func: findOpenSeats,
+      args: [sectionInput.value],
     },
     (injectionResults) => {
       if (injectionResults === undefined) return;
@@ -43,9 +45,20 @@ async function checkOpen() {
   );
 }
 
-function findOpenSeats() {
-  const source = document.getElementsByTagName("html")[0].innerHTML;
-  return source.includes("Open Seats");
+function findOpenSeats(sectionInputValue) {
+  const rows = document.getElementsByTagName("tr");
+  const sections = sectionInputValue && sectionInputValue.split(" ");
+
+  for (const row of rows) {
+    const html = row.innerHTML;
+    const canCheck =
+      !sections || sections.some((section) => html.includes(section));
+
+    if (canCheck && html.includes("Open Seats")) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function onFound() {

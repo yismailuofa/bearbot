@@ -36,4 +36,6 @@ It will refresh the page every 5 seconds and beep once it has found an open seat
 6. Click start to start the script, it will refresh the page and beep once it has found an open seat in the class.
    <img width="326" alt="image" src="https://user-images.githubusercontent.com/59630201/208400999-b7747bee-9cf5-4465-a4b6-3a08b2daab0b.png">
 
+7. You can enter sections seperated by spaces in the input box to only get alerted when those sections have open seats.
+
 > NOTE: It is very important that you keep the window open and do not close it. Navigating to other tabs within the chrome window you have open will stop the script. The best way to avoid this is to open a new chrome window and run the script. You can use chrome on other windows normally.
