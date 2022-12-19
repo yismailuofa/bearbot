@@ -34,7 +34,7 @@ It will refresh the page every 5 seconds and beep once it has found an open seat
    <img width="970" alt="image" src="https://user-images.githubusercontent.com/59630201/208400930-140cb285-dfc2-47e6-a1b1-f3f9c7437cda.png">
 
 6. Click start to start the script, it will refresh the page and beep once it has found an open seat in the class.
-   <img width="326" alt="image" src="https://user-images.githubusercontent.com/59630201/208400999-b7747bee-9cf5-4465-a4b6-3a08b2daab0b.png">
+   <img width="789" alt="image" src="https://user-images.githubusercontent.com/59630201/208506931-7fc3d48d-63fc-4f16-b2ff-4b441b794155.png">
 
 7. You can enter sections seperated by spaces in the input box to only get alerted when those sections have open seats.
 
