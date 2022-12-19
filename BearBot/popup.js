@@ -33,7 +33,6 @@ async function checkOpen() {
       func: findOpenSeats,
     },
     (injectionResults) => {
-      console.log(injectionResults);
       if (injectionResults === undefined) return;
       for (const frameResult of injectionResults) {
         if (frameResult.result) {
