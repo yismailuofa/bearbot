@@ -1,14 +1,13 @@
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const successMsg = document.getElementById("successMsg");
-const beep = new Audio(chrome.runtime.getURL("beep.mp3"));
-let interval = -1;
 
 const INTERVAL_TIME = 5 * 1000; // 5 seconds
 
-stopButton.classList.add("invisible");
-successMsg.classList.add("invisible");
+const beep = new Audio(chrome.runtime.getURL("beep.mp3"));
+beep.loop = true;
 
+let interval;
 startButton.onclick = () => {
   toggleVisibility();
 
@@ -20,13 +19,13 @@ startButton.onclick = () => {
 
 stopButton.onclick = () => {
   toggleVisibility();
+
   beep.pause();
+
   clearInterval(interval);
 };
 
 async function checkOpen() {
-  console.log(`Checking at ${new Date().toLocaleTimeString()}`);
-
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   chrome.scripting.executeScript(
     {
@@ -34,6 +33,8 @@ async function checkOpen() {
       func: findOpenSeats,
     },
     (injectionResults) => {
+      console.log(injectionResults);
+      if (injectionResults === undefined) return;
       for (const frameResult of injectionResults) {
         if (frameResult.result) {
           onFound();
@@ -45,19 +46,20 @@ async function checkOpen() {
 
 function findOpenSeats() {
   const source = document.getElementsByTagName("html")[0].innerHTML;
-  return source.search("Open Seats") !== -1;
+  return source.includes("Open Seats");
 }
 
 function onFound() {
-  beep.loop = true;
+  successMsg.classList.remove("invisible");
+
   beep.play();
 
   clearInterval(interval);
-  successMsg.classList.remove("invisible");
 }
 
 function toggleVisibility() {
   startButton.classList.toggle("invisible");
   stopButton.classList.toggle("invisible");
+
   successMsg.classList.add("invisible");
 }
