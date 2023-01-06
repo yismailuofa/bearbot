@@ -69,8 +69,8 @@ function onFound() {
   chrome.notifications.create("CLASS_FOUND", {
     type: "basic",
     iconUrl: "bear.png",
-    title: "BearBot: Seat alert",
-    message: "An open seat for your class was found.",
+    title: "BearBot: SEAT ALERT",
+    message: "An open seat for your class was found!",
     priority: 2,
   });
 
