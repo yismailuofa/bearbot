@@ -7,7 +7,8 @@
     },
     "permissions": [
         "scripting",
-        "tabs"
+        "tabs",
+        "notifications"
     ],
     "host_permissions": [
         "*://www.beartracks.ualberta.ca/*",
