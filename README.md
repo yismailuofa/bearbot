@@ -1,7 +1,7 @@
 # BearBot
 
 🐻🤖 A Chrome Extension that monitors a UAlberta class for open seats.
-It will refresh the page every 5 seconds and beep once it has found an open seat in the class.
+It will refresh the page every 5 seconds, beep, and send a chrome notification once it has found an open seat in the class.
 
 # Guide
 
