@@ -10,8 +10,7 @@ It will refresh the page every 5 seconds, beep, send a chrome notification, and 
 
 ## Installation
 
-1. Press the green download `Code` button and then `Download Zip`.
-   <img width="354" alt="image" src="https://user-images.githubusercontent.com/59630201/208399646-f6c87e1c-f75f-481f-b10c-1753958bf6aa.png">
+1. Download the extension using the button in the top right.
 
 2. Go to the chrome extensions page by typing `chrome://extensions/` in your search bar or by navigating to the chrome settings -> extensions.
 
