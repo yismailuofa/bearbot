@@ -29,7 +29,7 @@ startButton.onclick = () => {
   toggleVisibility();
 
   interval = setInterval(() => {
-    // chrome.tabs.reload();
+    chrome.tabs.reload();
     checkOpen();
   }, INTERVAL_TIME);
 };
