@@ -8,12 +8,28 @@ const INTERVAL_TIME = 5 * 1000; // 5 seconds
 const beep = new Audio(chrome.runtime.getURL("beep.mp3"));
 beep.loop = true;
 
+let isPopupOpen = false;
+
+chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
+  if (message.type === "popupStatus") {
+    sendResponse(isPopupOpen);
+  }
+});
+
+window.addEventListener("load", () => {
+  isPopupOpen = true;
+});
+
+window.addEventListener("unload", () => {
+  isPopupOpen = false;
+});
+
 let interval;
 startButton.onclick = () => {
   toggleVisibility();
 
   interval = setInterval(() => {
-    chrome.tabs.reload();
+    // chrome.tabs.reload();
     checkOpen();
   }, INTERVAL_TIME);
 };
@@ -45,16 +61,28 @@ async function checkOpen() {
   );
 }
 
-function findOpenSeats(sectionInputValue) {
+async function findOpenSeats(sectionInputValue) {
   const rows = document.getElementsByTagName("tr");
   const sections = sectionInputValue && sectionInputValue.split(" ");
 
   for (const row of rows) {
     const html = row.innerHTML;
+
     const canCheck =
       !sections || sections.some((section) => html.includes(section));
 
     if (canCheck && html.includes("Open Seats")) {
+      const idx = Array.from(row.getElementsByTagName("a"))
+        .find((a) => a.innerText.includes("Enroll"))
+        ?.href.split("$")[1]
+        .split("');")[0];
+
+      if (!idx) return false;
+
+      const enrollEvent = new CustomEvent("enroll-bearbot", { detail: idx });
+
+      document.getElementsByTagName("body")[0].dispatchEvent(enrollEvent);
+
       return true;
     }
   }
