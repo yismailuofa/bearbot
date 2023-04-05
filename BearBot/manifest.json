@@ -15,7 +15,7 @@
       "all_frames": true
     }
   ],
-  "permissions": ["scripting", "tabs", "notifications", "storage"],
+  "permissions": ["storage"],
   "host_permissions": [
     "*://www.beartracks.ualberta.ca/*",
     "*://www.guest.beartracks.ualberta.ca/*"
