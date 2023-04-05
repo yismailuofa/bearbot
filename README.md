@@ -10,7 +10,7 @@
 
 1. Download the extension using the button in the top right.
 
-2. Go to the chrome extensions page by typing `chrome://extensions/` in your search bar or by navigating to the chrome settings -> extensions.
+2. Go to the chrome extensions page by typing `chrome://extensions/` in your search bar or by navigating to Chrome settings -> extensions.
 
 3. Click the switch in the top right called `Developer mode`
 
