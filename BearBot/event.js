@@ -1,6 +1,5 @@
 const body = document.getElementsByTagName("body")[0];
 
-// Listen for the event.
 body.addEventListener(
   "enroll-bearbot",
   (e) => {

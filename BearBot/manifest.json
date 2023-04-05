@@ -1,16 +1,16 @@
 {
   "manifest_version": 3,
   "name": "BearBot",
-  "version": "1.0",
+  "version": "2.0",
   "action": {
     "default_popup": "popup.html"
   },
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
-      "matches": [
-        "*://www.beartracks.ualberta.ca/*",
-        "*://www.guest.beartracks.ualberta.ca/*"
-      ],
+      "matches": ["*://www.beartracks.ualberta.ca/*"],
       "js": ["inject.js"],
       "all_frames": true
     }
@@ -22,10 +22,7 @@
   ],
   "web_accessible_resources": [
     {
-      "matches": [
-        "*://www.beartracks.ualberta.ca/*",
-        "*://www.guest.beartracks.ualberta.ca/*"
-      ],
+      "matches": ["*://www.beartracks.ualberta.ca/*"],
       "resources": ["event.js"]
     }
   ]

@@ -2,7 +2,7 @@ const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const sectionInput = document.getElementById("sectionInput");
 
-chrome.storage.local.get(["started"], (result) => {
+chrome.storage.local.get("started", (result) => {
   if (result.started) {
     toggleVisibility();
   }

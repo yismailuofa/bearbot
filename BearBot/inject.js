@@ -1,9 +1,11 @@
 const TIMEOUT_IN_MS = 5 * 1000; // 5 seconds
+const MAX_SUBMIT_ITER = 10;
+const SUBMIT_TIMEOUT = 1000;
 
 let interval;
-let localRunning = false;
 
 chrome.storage.local.onChanged.addListener(async (changes) => {
+  console.debug("Storage changed:", changes);
   clearInterval(interval);
 
   if (changes.started?.newValue) {
@@ -11,41 +13,38 @@ chrome.storage.local.onChanged.addListener(async (changes) => {
   }
 });
 
-chrome.storage.local.get("submit", (ls) => {
-  if (ls.submit && !localRunning) {
-    console.log("Submit onload.");
-    handleSubmit();
-    localRunning = true;
-  }
-});
+chrome.storage.local.get(["submit", "start"], (ls) => {
+  const { submit, start } = ls;
 
-chrome.storage.local.get("started", (ls) => {
-  if (ls.started) {
-    console.log("Started onload.");
+  if (submit) {
+    console.debug("Submit onload.");
+    handleSubmit();
+  } else if (start) {
+    console.debug("Start onload.");
     interval = setInterval(onInterval, TIMEOUT_IN_MS);
   }
 });
 
 async function onInterval() {
-  console.log("Interval.");
-  if (!localRunning) {
-    if (await findOpenSeats()) {
-      await chrome.storage.local.set({ submit: true });
-      clearInterval(interval);
-    }
-
-    location.reload();
+  console.debug("Interval callback.");
+  if (await findOpenSeats()) {
+    await chrome.storage.local.set({ submit: true });
+    clearInterval(interval);
   }
+
+  location.reload();
 }
 
 async function handleSubmit() {
   let iterations = 0;
-  let searchInterval = setInterval(() => {
-    console.log("Searching for submit button...", iterations);
+  let searchInterval = setInterval(async () => {
+    console.debug("Searching for submit button...", iterations);
+
     let submitButton = document.getElementById("SSR_ENRL_FL_WRK_SUBMIT_PB");
 
     if (submitButton) {
-      console.log("Found submit button");
+      console.debug("Found submit button");
+
       clearInterval(interval);
       clearInterval(searchInterval);
 
@@ -53,23 +52,25 @@ async function handleSubmit() {
 
       document.getElementsByTagName("body")[0].dispatchEvent(event);
 
-      chrome.storage.local.set({ submit: false });
+      await chrome.storage.local.set({ submit: false });
+      await chrome.storage.local.set({ started: false });
+
+      chrome.runtime.sendMessage({ message: "updateIcon", data: "OFF" });
     }
 
-    if (iterations > 10) {
+    if (iterations > MAX_SUBMIT_ITER) {
       clearInterval(searchInterval);
     }
 
     iterations++;
-  }, 1000);
+  }, SUBMIT_TIMEOUT);
 }
 
 async function findOpenSeats() {
   const rows = document.getElementsByTagName("tr");
-  const ls = await chrome.storage.local.get("filter");
-  const sections = ls.filter;
+  const { filter: sections } = await chrome.storage.local.get("filter");
 
-  console.log("Filter:", sections);
+  console.debug("Filter:", sections);
 
   for (const row of rows) {
     const html = row.innerHTML;
@@ -98,12 +99,8 @@ async function findOpenSeats() {
 
 // Get the window to the soul
 // http://stackoverflow.com/questions/20499994/access-window-variable-from-content-script}
-function injectScript(file_path, tag) {
-  var node = document.getElementsByTagName(tag)[0];
-  var script = document.createElement("script");
-  script.setAttribute("type", "text/javascript");
-  script.setAttribute("src", file_path);
-  node.appendChild(script);
-}
-
-injectScript(chrome.runtime.getURL("event.js"), "body");
+const node = document.getElementsByTagName("body")[0];
+const script = document.createElement("script");
+script.setAttribute("type", "text/javascript");
+script.setAttribute("src", chrome.runtime.getURL("event.js"));
+node.appendChild(script);
