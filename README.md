@@ -19,15 +19,15 @@
 
 ## Usage
 
-1. Click the puzzle piece in your top chrome bar and scroll down BearBot. Then hit the pin icon to pin it to your chrome bar.
+1. Click the puzzle piece in your top chrome bar and scroll down to `BearBot`. Then click the pin icon to pin it to your chrome bar.
 
 2. Go to `https://www.beartracks.ualberta.ca/` and click `Sign In`.
 
-3. Got to Class Search and use the search box to search for the class you want to track. It may take a couple clicks.
+3. Got to `Class Search` and use the search box to search for the class you want to track. It may take a couple clicks.
 
 4. Once you are at page like this, click the extension icon in the top right and start the bot. You can click away or navigate to other tabs while it runs.
    <img width="860" alt="image" src="https://user-images.githubusercontent.com/59630201/229986575-0a95d8c9-bce9-4482-9028-f82531d24a77.png">
 
 5. You can also optionally enter a space seperated keyword list, e.g `LEC-A2456 LEC-A1-123` to filter which sections are enrolled in. Otherwise it will choose the first open section.
 
-6. Once an opening is found, BearBot should click enroll for you. Enjoy!
+6. Once an opening is found, BearBot should enroll you. Enjoy!
