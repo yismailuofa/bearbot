@@ -13,13 +13,13 @@ chrome.storage.local.onChanged.addListener(async (changes) => {
   }
 });
 
-chrome.storage.local.get(["submit", "start"], (ls) => {
-  const { submit, start } = ls;
+chrome.storage.local.get(["submit", "started"], (ls) => {
+  const { submit, started } = ls;
 
   if (submit) {
     console.debug("Submit onload.");
     handleSubmit();
-  } else if (start) {
+  } else if (started) {
     console.debug("Start onload.");
     interval = setInterval(onInterval, TIMEOUT_IN_MS);
   }
