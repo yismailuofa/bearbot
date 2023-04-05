@@ -11,11 +11,11 @@
         "*://www.beartracks.ualberta.ca/*",
         "*://www.guest.beartracks.ualberta.ca/*"
       ],
-      "js": ["inject.js", "event.js"],
+      "js": ["inject.js"],
       "all_frames": true
     }
   ],
-  "permissions": ["scripting", "tabs", "notifications"],
+  "permissions": ["scripting", "tabs", "notifications", "storage"],
   "host_permissions": [
     "*://www.beartracks.ualberta.ca/*",
     "*://www.guest.beartracks.ualberta.ca/*"
