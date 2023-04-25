@@ -19,7 +19,7 @@
 
 ## Usage
 
-1. Click the puzzle piece in your top chrome bar and scroll down BearBot. Then hit the pin icon to pin it to your chrome bar.
+1. Click the puzzle piece in your top chrome bar and scroll down to `BearBot`. Then click the pin icon to pin it to your chrome bar.
 
 2. Go to `https://www.beartracks.ualberta.ca/` and click `Sign In`.
 
