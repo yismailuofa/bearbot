@@ -2,15 +2,11 @@ const body = document.getElementsByTagName("body")[0];
 
 body.addEventListener(
   "enroll-bearbot",
-  (e) => {
-    let idx = e.detail;
-
+  (_) => {
     window[`submitAction_${winName}`](
       document[winName],
-      `ZSAW_CLSRCH_WRK_ENROLL$${idx}`
+      "DERIVED_SSR_FL_SSR_ENROLL_FL$92$"
     );
-
-    i;
   },
   false
 );
@@ -18,10 +14,11 @@ body.addEventListener(
 body.addEventListener(
   "submit-bearbot",
   (_) => {
-    window[`submitAction_${winName}`](
-      document[winName],
-      "SSR_ENRL_FL_WRK_SUBMIT_PB"
+    oParentWin[`submitAction_${winName}`](
+      oParentWin.document[winName],
+      "#ICYes"
     );
+    closeMsg(null, modId);
   },
   false
 );

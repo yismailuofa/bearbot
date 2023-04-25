@@ -1,6 +1,5 @@
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
-const sectionInput = document.getElementById("sectionInput");
 
 chrome.storage.local.get("started", (result) => {
   if (result.started) {
@@ -16,9 +15,6 @@ chrome.storage.local.get("started", (result) => {
 startButton.onclick = async () => {
   toggleVisibility();
 
-  await chrome.storage.local.set({
-    filter: sectionInput.value ? sectionInput.value.split(" ") : [],
-  });
   await chrome.storage.local.set({ started: true });
   await chrome.action.setBadgeText({ text: "ON" });
   await chrome.action.setBadgeBackgroundColor({ color: "#cfffd5" });

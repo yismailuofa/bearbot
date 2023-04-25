@@ -1,10 +1,8 @@
 const TIMEOUT_IN_MS = 5 * 1000; // 5 seconds
-const MAX_SUBMIT_ITER = 10;
-const SUBMIT_TIMEOUT = 1000;
 
 let interval;
 
-chrome.storage.local.onChanged.addListener(async (changes) => {
+chrome.storage.local.onChanged.addListener((changes) => {
   console.debug("Storage changed:", changes);
   clearInterval(interval);
 
@@ -13,13 +11,10 @@ chrome.storage.local.onChanged.addListener(async (changes) => {
   }
 });
 
-chrome.storage.local.get(["submit", "started"], (ls) => {
-  const { submit, started } = ls;
+chrome.storage.local.get(["started"], (ls) => {
+  const { started } = ls;
 
-  if (submit) {
-    console.debug("Submit onload.");
-    handleSubmit();
-  } else if (started) {
+  if (started) {
     console.debug("Start onload.");
     interval = setInterval(onInterval, TIMEOUT_IN_MS);
   }
@@ -28,73 +23,53 @@ chrome.storage.local.get(["submit", "started"], (ls) => {
 async function onInterval() {
   console.debug("Interval callback.");
   if (await findOpenSeats()) {
-    await chrome.storage.local.set({ submit: true });
+    const enrollEvent = new CustomEvent("enroll-bearbot");
+    document.getElementsByTagName("body")[0].dispatchEvent(enrollEvent);
+
+    await waitForSubmit();
+
+    const submitEvent = new CustomEvent("submit-bearbot");
+    document.getElementsByTagName("body")[0].dispatchEvent(submitEvent);
+
     clearInterval(interval);
+  } else {
+    open(
+      "https://www.beartracks.ualberta.ca/psc/uahebprd/EMPLOYEE/HRMS/c/SSR_STUDENT_FL.SSR_SHOP_CART_FL.GBL?Page=SSR_TERM_STA3_FL&Action=U",
+      "_self"
+    );
   }
-
-  location.reload();
-}
-
-async function handleSubmit() {
-  let iterations = 0;
-  let searchInterval = setInterval(async () => {
-    console.debug("Searching for submit button...", iterations);
-
-    let submitButton = document.getElementById("SSR_ENRL_FL_WRK_SUBMIT_PB");
-
-    if (submitButton) {
-      console.debug("Found submit button");
-
-      clearInterval(interval);
-      clearInterval(searchInterval);
-
-      let event = new CustomEvent("submit-bearbot");
-
-      document.getElementsByTagName("body")[0].dispatchEvent(event);
-
-      await chrome.storage.local.set({ submit: false });
-      await chrome.storage.local.set({ started: false });
-
-      chrome.runtime.sendMessage({ message: "updateIcon", data: "OFF" });
-    }
-
-    if (iterations > MAX_SUBMIT_ITER) {
-      clearInterval(searchInterval);
-    }
-
-    iterations++;
-  }, SUBMIT_TIMEOUT);
 }
 
 async function findOpenSeats() {
-  const rows = document.getElementsByTagName("tr");
-  const { filter: sections } = await chrome.storage.local.get("filter");
+  const rows = Array.from(
+    document.querySelectorAll(".psa_shop-cart-anchor tr")
+  ).slice(1); // slice header
 
-  console.debug("Filter:", sections);
+  let validRows = false;
 
   for (const row of rows) {
-    const html = row.innerHTML;
+    const open = row.children[1].innerText === "Open";
 
-    const canCheck =
-      html.includes("Open Seats") &&
-      (!sections.length || sections.some((section) => html.includes(section)));
-
-    if (canCheck) {
-      const idx = Array.from(row.getElementsByTagName("a"))
-        .find((a) => a.innerText.includes("Enroll"))
-        ?.href.split("$")[1]
-        .split("');")[0];
-
-      if (!idx) return false;
-
-      const enrollEvent = new CustomEvent("enroll-bearbot", { detail: idx });
-
-      document.getElementsByTagName("body")[0].dispatchEvent(enrollEvent);
-
-      return true;
+    if (open) {
+      const checkbox = row.children[0].querySelector(".ps-checkbox");
+      checkbox.click();
+      validRows = true;
     }
   }
-  return false;
+
+  return validRows;
+}
+
+async function waitForSubmit() {
+  for (let i = 0; i < 100; i++) {
+    if (!document.querySelector("#alertmsg")) {
+      console.debug("Waiting for submit button to appear.");
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    } else {
+      return;
+    }
+  }
+  console.debug("Submit button did not appear.");
 }
 
 // Get the window to the soul
