@@ -1,6 +1,6 @@
 # BearBot
 
-🐻🤖 A Chrome Extension that monitors a UAlberta class for open seats and enroll once it has found an open seat in the class.
+🐻🤖 A script that monitors your UAlberta watchlist for open seats and enrolls once it finds open seats in the class.
 
 > Except as represented in this agreement, all work product by Developer is provided ​“AS IS”. Other than as provided in this agreement, Developer makes no other warranties, express or implied, and hereby disclaims all implied warranties, including any warranty of merchantability and warranty of fitness for a particular purpose. Developer maintains no affiliation to the University of Alberta.
 
