@@ -4,8 +4,9 @@ import assert from "assert";
 const LINK =
   "https://www.beartracks.ualberta.ca/psc/uahebprd/EMPLOYEE/HRMS/c/SSR_STUDENT_FL.SSR_SHOP_CART_FL.GBL?Action=U";
 
-const USERNAME = "YOUR_USERNAME";
-const PASSWORD = "YOUR_PASSWORD";
+const USERNAME = "yismail";
+const PASSWORD = "Madskeelz49";
+const TIMEOUT = 5 * 1000;
 
 assert(USERNAME !== "YOUR_USERNAME", "Please set your username in index.js");
 assert(PASSWORD !== "YOUR_PASSWORD", "Please set your password in index.js");
@@ -73,6 +74,9 @@ const f = async () => {
 
     if (!validRows) {
       console.log("No valid rows found. Refreshing page...");
+
+      await new Promise((resolve) => setTimeout(resolve, TIMEOUT));
+
       await page.reload({ waitUntil: "networkidle2" });
     }
   }
