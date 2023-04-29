@@ -1,7 +1,14 @@
 import puppeteer from "puppeteer";
+import assert from "assert";
 
 const LINK =
   "https://www.beartracks.ualberta.ca/psc/uahebprd/EMPLOYEE/HRMS/c/SSR_STUDENT_FL.SSR_SHOP_CART_FL.GBL?Action=U";
+
+const USERNAME = "YOUR_USERNAME";
+const PASSWORD = "YOUR_PASSWORD";
+
+assert(USERNAME !== "YOUR_USERNAME", "Please set your username in index.js");
+assert(PASSWORD !== "YOUR_PASSWORD", "Please set your password in index.js");
 
 const f = async () => {
   console.log("Launching browser...");
@@ -17,9 +24,9 @@ const f = async () => {
 
   console.log("Logging in...");
 
-  await page.type("#username", "YOUR_USERNAME");
+  await page.type("#username", USERNAME);
 
-  await page.type("#user_pass", "YOUR_PASSWORD");
+  await page.type("#user_pass", PASSWORD);
 
   await page.click("input[type=submit]");
 
